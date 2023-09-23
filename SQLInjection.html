@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Injection Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        #results {
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function testSQLInjection() {
+            // Get the website URL from the input field
+            const websiteUrl = document.getElementById("website_url").value;
+
+            // List of SQL injection payloads to test
+            const SQL_INJECTION_PAYLOADS = [
+                "' OR '1'='1", // Basic payload
+                "'; DROP TABLE users--" // SQL injection with malicious intent (for testing only)
+                // Add more payloads here
+            ];
+
+            // Array to store the test results
+            const results = [];
+
+            // Perform SQL injection testing for each payload
+            SQL_INJECTION_PAYLOADS.forEach(payload => {
+                // Simulate the test locally (replace this logic with actual testing on your server)
+                const isVulnerable = simulateSQLInjectionTest(websiteUrl, payload);
+
+                // Create a result message
+                const resultMessage = `Payload: ${payload} - Result: ${isVulnerable ? "Potential SQL Injection Detected" : "No SQL Injection Detected"}`;
+
+                // Add the result to the array
+                results.push(resultMessage);
+            });
+
+            // Display the results on the web page
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = results.join("<br>");
+        }
+
+        function simulateSQLInjectionTest(websiteUrl, payload) {
+            // Replace this logic with actual SQL injection testing on your server
+            // In this example, we're simulating by checking if the payload is present in the URL
+            return websiteUrl.includes(payload);
+        }
+    </script>
+</head>
+<body>
+    <h1>SQL Injection Tester</h1>
+    <div class="container">
+        <label for="website_url">Enter the website URL to test (e.g., https://website.com):</label>
+        <input type="text" id="website_url" required>
+        <button onclick="testSQLInjection()">Test</button>
+
+        <h2>Test Results</h2>
+        <div id="results">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+</body>
+</html>
